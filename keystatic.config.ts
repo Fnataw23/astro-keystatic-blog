@@ -1,4 +1,4 @@
-import { config, fields, collection } from '@keystatic/core';
+import { config, fields, collection, singleton } from '@keystatic/core';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -14,6 +14,15 @@ export default config({
     project: 'test3/astro-keystatic-blog',
   },
   collections: {
+    categories: collection({
+      label: 'Категории',
+      slugField: 'name',
+      path: 'src/content/categories/*',
+      format: { data: 'json' },
+      schema: {
+        name: fields.slug({ name: { label: 'Название категории' } }),
+      },
+    }),
     posts: collection({
       label: 'Статьи',
       slugField: 'title',
@@ -30,16 +39,10 @@ export default config({
           label: 'Дата публикации',
           defaultValue: { kind: 'today' },
         }),
-        category: fields.select({
+        category: fields.relationship({
           label: 'Категория',
-          options: [
-            { label: 'Строительство', value: 'construction' },
-            { label: 'Ремонт и отделка', value: 'renovation' },
-            { label: 'Сантехника', value: 'plumbing' },
-            { label: 'Электрика', value: 'electrical' },
-            { label: 'Дизайн интерьера', value: 'design' },
-          ],
-          defaultValue: 'renovation',
+          collection: 'categories',
+          validation: { isRequired: true },
         }),
         coverImage: fields.image({
           label: 'Обложка (фото)',
@@ -63,6 +66,21 @@ export default config({
               publicPath: '/images/posts',
             },
           },
+        }),
+      },
+    }),
+  },
+  singletons: {
+    homepage: singleton({
+      label: 'Главная страница',
+      path: 'src/content/homepage/index',
+      format: { data: 'json' },
+      schema: {
+        title: fields.text({ label: 'Заголовок на главной', defaultValue: 'Полезные статьи о ремонте' }),
+        description: fields.text({
+          label: 'Подзаголовок на главной',
+          multiline: true,
+          defaultValue: 'Экспертные разборы, советы по выбору материалов и пошаговые инструкции от профессионалов.'
         }),
       },
     }),

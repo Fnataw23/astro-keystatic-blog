@@ -1,26 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
+import homepage from '../content/homepage/index.json';
 import '../styles/global.css';
 
-// Fetch all posts and sort them by date descending
+// Fetch all posts, categories, and sort posts by date descending
 const posts = await getCollection('posts');
+const dbCategories = await getCollection('categories');
 const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 const categories = [
   { value: 'all', label: 'Все статьи' },
-  { value: 'construction', label: 'Строительство' },
-  { value: 'renovation', label: 'Ремонт и отделка' },
-  { value: 'plumbing', label: 'Сантехника' },
-  { value: 'electrical', label: 'Электрика' },
-  { value: 'design', label: 'Дизайн' },
+  ...dbCategories.map(cat => ({ value: cat.id, label: cat.data.name }))
 ];
 
-const categoryTranslations: Record<string, string> = {
-  construction: 'Строительство',
-  renovation: 'Ремонт и отделка',
-  plumbing: 'Сантехника',
-  electrical: 'Электрика',
-  design: 'Дизайн интерьера',
+const getCategoryName = (slug: string) => {
+  const cat = dbCategories.find(c => c.id === slug);
+  return cat ? cat.data.name : slug;
 };
 
 // Date formatter
@@ -59,8 +54,8 @@ const formatDate = (date: Date) => {
   <!-- Hero Section -->
   <header class="hero">
     <div class="container">
-      <h1 class="hero-title">Полезные статьи о ремонте</h1>
-      <p class="hero-subtitle">Экспертные разборы, советы по выбору материалов и пошаговые инструкции от профессионалов.</p>
+      <h1 class="hero-title">{homepage.title}</h1>
+      <p class="hero-subtitle">{homepage.description}</p>
     </div>
   </header>
 
@@ -109,7 +104,7 @@ const formatDate = (date: Date) => {
                 <svg class="card-image" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" style="background: linear-gradient(135deg, hsl(263, 60%, 20%) 0%, hsl(190, 60%, 20%) 100%);">
                   <rect width="100%" height="100%" fill="none" />
                   <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="var(--text-secondary)" font-family="var(--font-title)" font-size="16" font-weight="600">
-                    {categoryTranslations[post.data.category] || 'Статья'}
+                    {getCategoryName(post.data.category)}
                   </text>
                 </svg>
               )}
@@ -117,7 +112,7 @@ const formatDate = (date: Date) => {
             <div class="card-content">
               <div class="card-meta">
                 <span class={`badge badge-${post.data.category}`}>
-                  {categoryTranslations[post.data.category]}
+                  {getCategoryName(post.data.category)}
                 </span>
                 <time class="card-date" datetime={post.data.date.toISOString()}>
                   {formatDate(post.data.date)}

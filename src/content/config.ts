@@ -6,11 +6,18 @@ const posts = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
-    category: z.enum(['construction', 'renovation', 'plumbing', 'electrical', 'design']),
+    category: z.string(),
     coverImage: z.string().optional(),
     videoUrl: z.string().optional(),
     videoFile: z.string().optional(),
   }),
 });
 
-export const collections = { posts };
+const categories = defineCollection({
+  type: 'data',
+  schema: z.object({
+    name: z.string(),
+  }),
+});
+
+export const collections = { posts, categories };
