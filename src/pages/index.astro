@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import homepage from '../content/homepage/index.json';
+import ads from '../content/ads/index.json';
 import '../styles/global.css';
 
 // Fetch all posts, categories, and sort posts by date descending
@@ -83,6 +84,17 @@ const formatDate = (date: Date) => {
         </button>
       ))}
     </div>
+
+    <!-- Ad Banner Area (Homepage) -->
+    {(ads.showCustomBanner && ads.customBannerImage) ? (
+      <div class="ad-container" style="margin: 1rem auto 2rem; text-align: center; max-width: 728px;">
+        <a href={ads.customBannerLink || '#'} target="_blank" rel="noopener noreferrer" style="display: block;">
+          <img src={ads.customBannerImage} alt="Реклама" style="width: 100%; height: auto; border-radius: var(--radius-sm); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" />
+        </a>
+      </div>
+    ) : ads.yandexDirectHeader ? (
+      <div class="ad-container" style="margin: 1rem auto 2rem; text-align: center; max-width: 728px; width: 100%; min-height: 90px;" set:html={ads.yandexDirectHeader}></div>
+    ) : null}
 
     <!-- Posts Grid -->
     <div class="grid" id="posts-grid">

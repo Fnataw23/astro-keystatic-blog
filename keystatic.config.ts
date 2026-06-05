@@ -84,5 +84,34 @@ export default config({
         }),
       },
     }),
+    ads: singleton({
+      label: 'Реклама и баннеры',
+      path: 'src/content/ads/index',
+      format: { data: 'json' },
+      schema: {
+        yandexDirectHeader: fields.text({
+          label: 'Код Яндекс Директа на главной',
+          multiline: true,
+          description: 'Вставьте JavaScript код блока RTB (обычно горизонтальный баннер)'
+        }),
+        yandexDirectArticle: fields.text({
+          label: 'Код Яндекс Директа под статьей',
+          multiline: true,
+          description: 'Вставьте JavaScript код блока RTB'
+        }),
+        showCustomBanner: fields.checkbox({
+          label: 'Показывать собственный баннер вместо Директа',
+          defaultValue: false
+        }),
+        customBannerImage: fields.image({
+          label: 'Картинка баннера',
+          directory: 'public/images/ads',
+          publicPath: '/images/ads',
+        }),
+        customBannerLink: fields.text({
+          label: 'Ссылка для перехода по баннеру'
+        }),
+      }
+    }),
   },
 });
