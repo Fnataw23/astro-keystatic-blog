@@ -1,6 +1,7 @@
 # build and tool output
 dist
 .astro
+.vercel
 node_modules
 
 # local env files
