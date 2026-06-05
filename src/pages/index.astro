@@ -1,0 +1,204 @@
+---
+import { getCollection } from 'astro:content';
+import '../styles/global.css';
+
+// Fetch all posts and sort them by date descending
+const posts = await getCollection('posts');
+const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const categories = [
+  { value: 'all', label: 'Все статьи' },
+  { value: 'construction', label: 'Строительство' },
+  { value: 'renovation', label: 'Ремонт и отделка' },
+  { value: 'plumbing', label: 'Сантехника' },
+  { value: 'electrical', label: 'Электрика' },
+  { value: 'design', label: 'Дизайн' },
+];
+
+const categoryTranslations: Record<string, string> = {
+  construction: 'Строительство',
+  renovation: 'Ремонт и отделка',
+  plumbing: 'Сантехника',
+  electrical: 'Электрика',
+  design: 'Дизайн интерьера',
+};
+
+// Date formatter
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+};
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>МастерБлог — Полезные статьи о ремонте и строительстве</title>
+  <meta name="description" content="Информационный портал со статьями о строительстве, ремонте, сантехнике и дизайне. Удобная админка Keystatic.">
+</head>
+<body>
+  
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="/" class="logo">
+        МастерБлог
+        <span class="logo-dot"></span>
+      </a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Главная</a>
+        <a href="/keystatic" class="admin-btn" target="_blank">Админ-панель ↗</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <h1 class="hero-title">Полезные статьи о ремонте</h1>
+      <p class="hero-subtitle">Экспертные разборы, советы по выбору материалов и пошаговые инструкции от профессионалов.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Category Filter Bar -->
+    <div class="filter-bar" style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem;">
+      {categories.map((cat) => (
+        <button
+          class={`filter-btn ${cat.value === 'all' ? 'active' : ''}`}
+          data-category={cat.value}
+          style="
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: var(--font-title);
+            font-size: 0.9rem;
+            transition: var(--transition);
+          "
+        >
+          {cat.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="grid" id="posts-grid">
+      {sortedPosts.length === 0 ? (
+        <div style="grid-column: 1/-1; text-align: center; padding: 4rem 0; color: var(--text-secondary);">
+          <p style="font-size: 1.2rem;">Пока нет опубликованных статей.</p>
+          <p style="margin-top: 0.5rem; font-size: 0.95rem; color: var(--text-muted);">
+            Перейдите в <a href="/keystatic" style="color: var(--accent); text-decoration: underline;">Админ-панель</a>, чтобы добавить первую статью.
+          </p>
+        </div>
+      ) : (
+        sortedPosts.map((post) => (
+          <article class="card" data-post-category={post.data.category}>
+            <a href={`/posts/${post.slug}`} class="card-image-link">
+              {post.data.coverImage ? (
+                <img src={post.data.coverImage} alt={post.data.title} class="card-image" loading="lazy" />
+              ) : (
+                /* Fallback SVG Gradient */
+                <svg class="card-image" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" style="background: linear-gradient(135deg, hsl(263, 60%, 20%) 0%, hsl(190, 60%, 20%) 100%);">
+                  <rect width="100%" height="100%" fill="none" />
+                  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="var(--text-secondary)" font-family="var(--font-title)" font-size="16" font-weight="600">
+                    {categoryTranslations[post.data.category] || 'Статья'}
+                  </text>
+                </svg>
+              )}
+            </a>
+            <div class="card-content">
+              <div class="card-meta">
+                <span class={`badge badge-${post.data.category}`}>
+                  {categoryTranslations[post.data.category]}
+                </span>
+                <time class="card-date" datetime={post.data.date.toISOString()}>
+                  {formatDate(post.data.date)}
+                </time>
+              </div>
+              <h2 class="card-title">
+                <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+              </h2>
+              <p class="card-desc">{post.data.description}</p>
+              
+              <div class="card-footer">
+                <a href={`/posts/${post.slug}`} class="read-more">
+                  Читать статью 
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))
+      )}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 МастерБлог. Все права защищены.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">
+        Сделано с использованием Astro + Keystatic
+      </p>
+      <div class="footer-links">
+        <a href="/" style="color: var(--text-muted); hover: color: var(--accent);">Главная</a>
+        <a href="/keystatic" style="color: var(--text-muted); hover: color: var(--accent);">Админ-панель</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Instant Client-side Filter Script -->
+  <script>
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const posts = document.querySelectorAll('#posts-grid article');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Toggle active button style
+        filterButtons.forEach(b => {
+          b.classList.remove('active');
+          (b as HTMLButtonElement).style.borderColor = 'var(--border-color)';
+          (b as HTMLButtonElement).style.color = 'var(--text-secondary)';
+          (b as HTMLButtonElement).style.background = 'var(--bg-card)';
+        });
+        
+        btn.classList.add('active');
+        (btn as HTMLButtonElement).style.borderColor = 'var(--accent)';
+        (btn as HTMLButtonElement).style.color = 'var(--text-primary)';
+        (btn as HTMLButtonElement).style.background = 'hsla(263, 80%, 65%, 0.1)';
+
+        const targetCategory = btn.getAttribute('data-category');
+
+        posts.forEach(post => {
+          const postCategory = post.getAttribute('data-post-category');
+          if (targetCategory === 'all' || postCategory === targetCategory) {
+            (post as HTMLElement).style.display = 'flex';
+          } else {
+            (post as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Style active button initially
+    const initialActive = document.querySelector('.filter-btn.active');
+    if (initialActive) {
+      (initialActive as HTMLButtonElement).style.borderColor = 'var(--accent)';
+      (initialActive as HTMLButtonElement).style.color = 'var(--text-primary)';
+      (initialActive as HTMLButtonElement).style.background = 'hsla(263, 80%, 65%, 0.1)';
+    }
+  </script>
+</body>
+</html>
