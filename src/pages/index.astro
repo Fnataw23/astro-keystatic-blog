@@ -110,10 +110,13 @@ const formatDate = (date: Date) => {
           <article class="card" data-post-category={post.data.category}>
             <a href={`/posts/${post.slug}`} class="card-image-link">
               {post.data.coverImage ? (
-                <img src={post.data.coverImage} alt={post.data.title} class="card-image" loading="lazy" />
+                <>
+                  <div class="card-image-blur" style={`background-image: url(${post.data.coverImage})`} />
+                  <img src={post.data.coverImage} alt={post.data.title} class="card-image-main" loading="lazy" />
+                </>
               ) : (
                 /* Fallback SVG Gradient */
-                <svg class="card-image" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" style="background: linear-gradient(135deg, hsl(263, 60%, 20%) 0%, hsl(190, 60%, 20%) 100%);">
+                <svg class="card-image-main" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" style="background: linear-gradient(135deg, hsl(263, 60%, 20%) 0%, hsl(190, 60%, 20%) 100%);">
                   <rect width="100%" height="100%" fill="none" />
                   <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="var(--text-secondary)" font-family="var(--font-title)" font-size="16" font-weight="600">
                     {getCategoryName(post.data.category)}
