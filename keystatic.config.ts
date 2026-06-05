@@ -113,5 +113,18 @@ export default config({
         }),
       }
     }),
+    settings: singleton({
+      label: 'Настройки сайта',
+      path: 'src/content/settings/index',
+      format: { data: 'json' },
+      schema: {
+        siteName: fields.text({ label: 'Название сайта', defaultValue: 'МастерБлог' }),
+        siteDescription: fields.text({
+          label: 'Описание сайта (для SEO)',
+          multiline: true,
+          defaultValue: 'Информационный портал со статьями о строительстве, ремонте, сантехнике и дизайне.'
+        }),
+      }
+    }),
   },
 });

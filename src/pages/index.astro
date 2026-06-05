@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import homepage from '../content/homepage/index.json';
 import ads from '../content/ads/index.json';
+import settings from '../content/settings/index.json';
 import '../styles/global.css';
 
 // Fetch all posts, categories, and sort posts by date descending
@@ -34,8 +35,8 @@ const formatDate = (date: Date) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>МастерБлог — Полезные статьи о ремонте и строительстве</title>
-  <meta name="description" content="Информационный портал со статьями о строительстве, ремонте, сантехнике и дизайне.">
+  <title>{settings.siteName} — {homepage.title}</title>
+  <meta name="description" content={settings.siteDescription}>
 </head>
 <body>
   
@@ -43,7 +44,7 @@ const formatDate = (date: Date) => {
   <nav class="navbar">
     <div class="container navbar-inner">
       <a href="/" class="logo">
-        МастерБлог
+        {settings.siteName}
         <span class="logo-dot"></span>
       </a>
       <div class="nav-links">
@@ -157,7 +158,7 @@ const formatDate = (date: Date) => {
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p>© 2026 МастерБлог. Все права защищены.</p>
+      <p>© 2026 {settings.siteName}. Все права защищены.</p>
       <div class="footer-links">
         <a href="/" style="color: var(--text-muted); hover: color: var(--accent);">Главная</a>
         <a href="/keystatic" style="color: var(--text-muted); hover: color: var(--accent);">Админ-панель</a>

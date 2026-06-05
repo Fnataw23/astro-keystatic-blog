@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import ads from '../../content/ads/index.json';
+import settings from '../../content/settings/index.json';
 import '../../styles/global.css';
 
 export const prerender = true;
@@ -82,7 +83,7 @@ const embedVideoUrl = getEmbedUrl(post.data.videoUrl);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{post.data.title} — МастерБлог</title>
+  <title>{post.data.title} — {settings.siteName}</title>
   <meta name="description" content={post.data.description}>
 </head>
 <body>
@@ -91,7 +92,7 @@ const embedVideoUrl = getEmbedUrl(post.data.videoUrl);
   <nav class="navbar">
     <div class="container navbar-inner">
       <a href="/" class="logo">
-        МастерБлог
+        {settings.siteName}
         <span class="logo-dot"></span>
       </a>
       <div class="nav-links">
@@ -191,7 +192,7 @@ const embedVideoUrl = getEmbedUrl(post.data.videoUrl);
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p>© 2026 МастерБлог. Все права защищены.</p>
+      <p>© 2026 {settings.siteName}. Все права защищены.</p>
       <div class="footer-links">
         <a href="/" style="color: var(--text-muted);">Главная</a>
         <a href="/keystatic" style="color: var(--text-muted);">Админ-панель</a>
