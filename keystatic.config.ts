@@ -5,12 +5,14 @@ const isProd = process.env.NODE_ENV === 'production';
 export default config({
   storage: isProd
     ? {
-        kind: 'github',
-        repo: 'Fnataw23/astro-keystatic-blog',
+        kind: 'cloud',
       }
     : {
         kind: 'local',
       },
+  cloud: {
+    project: 'test3/astro-keystatic-blog',
+  },
   collections: {
     posts: collection({
       label: 'Статьи',
