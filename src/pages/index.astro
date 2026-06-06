@@ -63,7 +63,7 @@ const formatDate = (date: Date) => {
 
   <main class="container">
     <!-- Category Filter Bar -->
-    <div class="filter-bar" style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem;">
+    <div class="filter-bar" style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 3rem; margin-bottom: 2rem;">
       {categories.map((cat) => (
         <button
           class={`filter-btn ${cat.value === 'all' ? 'active' : ''}`}
