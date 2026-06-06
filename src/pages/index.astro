@@ -63,23 +63,11 @@ const formatDate = (date: Date) => {
 
   <main class="container">
     <!-- Category Filter Bar -->
-    <div class="filter-bar" style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 3rem; margin-bottom: 2rem;">
+    <div class="filter-bar">
       {categories.map((cat) => (
         <button
           class={`filter-btn ${cat.value === 'all' ? 'active' : ''}`}
           data-category={cat.value}
-          style="
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 0.6rem 1.2rem;
-            border-radius: 9999px;
-            cursor: pointer;
-            font-weight: 500;
-            font-family: var(--font-title);
-            font-size: 0.9rem;
-            transition: var(--transition);
-          "
         >
           {cat.label}
         </button>
@@ -304,14 +292,8 @@ const formatDate = (date: Date) => {
       filterButtons.forEach(b => {
         if (b.getAttribute('data-category') === category) {
           b.classList.add('active');
-          (b as HTMLButtonElement).style.borderColor = 'var(--accent)';
-          (b as HTMLButtonElement).style.color = 'var(--text-primary)';
-          (b as HTMLButtonElement).style.background = 'hsla(263, 80%, 65%, 0.1)';
         } else {
           b.classList.remove('active');
-          (b as HTMLButtonElement).style.borderColor = 'var(--border-color)';
-          (b as HTMLButtonElement).style.color = 'var(--text-secondary)';
-          (b as HTMLButtonElement).style.background = 'var(--bg-card)';
         }
       });
 

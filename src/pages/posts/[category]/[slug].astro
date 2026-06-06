@@ -199,9 +199,9 @@ const embedVideoUrl = getEmbedUrl(post.data.videoUrl);
             <div class="widget widget-cta">
               <h3 class="widget-cta-title">{settings.sidebarBannerTitle}</h3>
               <p class="widget-cta-text">{settings.sidebarBannerText}</p>
-              <a href={settings.sidebarBannerLink} class="btn-cta">
+              <button class="btn-cta btn-trigger-estimate" type="button">
                 {settings.sidebarBannerButtonText}
-              </a>
+              </button>
             </div>
           )}
 
@@ -227,6 +227,66 @@ const embedVideoUrl = getEmbedUrl(post.data.videoUrl);
       </aside>
     </div>
   </main>
+
+  <!-- Estimate Modal -->
+  <div class="modal-overlay" id="estimate-modal">
+    <div class="modal-card" style="max-width: 460px; text-align: left;">
+      <button class="modal-close-x" id="close-estimate-x" type="button">&times;</button>
+      <h3 class="modal-title" style="margin-bottom: 0.5rem; font-size: 1.5rem; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800;">Рассчитать смету</h3>
+      <p class="modal-text" style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+        Оставьте контакты, и мы подготовим для вас предварительный расчет стоимости работ и материалов.
+      </p>
+      
+      <form class="contact-form" id="estimate-form">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="est-name" style="margin-bottom: 0.4rem;">Ваше имя</label>
+          <input class="form-input" type="text" id="est-name" placeholder="Иван" required />
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="est-contact" style="margin-bottom: 0.4rem;">Телефон или Email</label>
+          <input class="form-input" type="text" id="est-contact" placeholder="+7 (999) 123-45-67" required />
+        </div>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label" for="est-type" style="margin-bottom: 0.4rem;">Что требуется рассчитать?</label>
+          <select class="form-input" id="est-type" style="padding: 0.6rem 0.8rem; background: #fff; cursor: pointer;">
+            <option value="Комплексный ремонт">Комплексный ремонт</option>
+            <option value="Косметический ремонт">Косметический ремонт</option>
+            <option value="Капитальный ремонт">Капитальный ремонт</option>
+            <option value="Дизайн-проект интерьера">Дизайн-проект интерьера</option>
+            <option value="Сантехнические работы">Сантехнические работы</option>
+            <option value="Электромонтажные работы">Электромонтажные работы</option>
+          </select>
+        </div>
+        <button class="btn-submit" type="submit" id="est-submit-btn" style="width: 100%;">
+          <span>Отправить запрос</span>
+          <svg id="est-loading-spinner" style="display: none; animation: spin 1s linear infinite;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="2" x2="12" y2="6"></line>
+            <line x1="12" y1="18" x2="12" y2="22"></line>
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+            <line x1="2" y1="12" x2="6" y2="12"></line>
+            <line x1="18" y1="12" x2="22" y2="12"></line>
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal-card">
+      <div class="modal-icon modal-icon-success">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3 class="modal-title">Заявка отправлена!</h3>
+      <p class="modal-text">Мы получили ваш запрос на расчет сметы и свяжемся с вами в ближайшее время.</p>
+      <button class="btn-modal-close" id="close-modal-btn" type="button">Отлично</button>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -261,8 +321,9 @@ const embedVideoUrl = getEmbedUrl(post.data.videoUrl);
     </div>
   </footer>
 
-  <!-- Client-side script for dynamic Table of Contents generation and active state highlight -->
+  <!-- Client-side script for dynamic Table of Contents, active highlight, and estimate modal -->
   <script>
+    // 1. Table of Contents generation
     const headings = document.querySelectorAll('.article-body h2, .article-body h3');
     const tocList = document.getElementById('toc-list');
     
@@ -315,6 +376,95 @@ const embedVideoUrl = getEmbedUrl(post.data.videoUrl);
       if (tocWidget) {
         tocWidget.style.display = 'none';
       }
+    }
+
+    // 2. Estimate Modal Handling
+    const estimateModal = document.getElementById('estimate-modal');
+    const openEstimateBtns = document.querySelectorAll('.btn-trigger-estimate');
+    const closeEstimateX = document.getElementById('close-estimate-x');
+    const estimateForm = document.getElementById('estimate-form');
+    const estSubmitBtn = document.getElementById('est-submit-btn');
+    const estSpinner = document.getElementById('est-loading-spinner');
+    
+    const successModal = document.getElementById('success-modal');
+    const closeSuccessBtn = document.getElementById('close-modal-btn');
+
+    function openModal() {
+      if (estimateModal) estimateModal.classList.add('active');
+    }
+
+    function closeModal() {
+      if (estimateModal) estimateModal.classList.remove('active');
+    }
+
+    openEstimateBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    if (closeEstimateX) {
+      closeEstimateX.addEventListener('click', closeModal);
+    }
+
+    // Close modal on clicking outside the card
+    window.addEventListener('click', (e) => {
+      if (e.target === estimateModal) {
+        closeModal();
+      }
+      if (e.target === successModal) {
+        if (successModal) successModal.classList.remove('active');
+      }
+    });
+
+    if (estimateForm) {
+      estimateForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        if (estSubmitBtn) (estSubmitBtn as HTMLButtonElement).disabled = true;
+        if (estSpinner) (estSpinner as HTMLElement).style.display = 'inline-block';
+
+        const name = (document.getElementById('est-name') as HTMLInputElement).value;
+        const contact = (document.getElementById('est-contact') as HTMLInputElement).value;
+        const type = (document.getElementById('est-type') as HTMLSelectElement).value;
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+              name, 
+              contact, 
+              message: `Запрос расчета сметы. Выбранное направление: ${type}` 
+            })
+          });
+
+          const result = await response.json();
+
+          if (response.ok && result.success) {
+            (estimateForm as HTMLFormElement).reset();
+            closeModal();
+            if (successModal) successModal.classList.add('active');
+          } else {
+            alert(result.error || 'Произошла ошибка при отправке запроса.');
+          }
+        } catch (error) {
+          console.error('Estimate submit error:', error);
+          alert('Не удалось отправить запрос. Проверьте интернет-соединение.');
+        } finally {
+          if (estSubmitBtn) (estSubmitBtn as HTMLButtonElement).disabled = false;
+          if (estSpinner) (estSpinner as HTMLElement).style.display = 'none';
+        }
+      });
+    }
+
+    if (closeSuccessBtn && successModal) {
+      closeSuccessBtn.addEventListener('click', () => {
+        successModal.classList.remove('active');
+      });
     }
   </script>
 </body>
