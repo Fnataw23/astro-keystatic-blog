@@ -224,26 +224,44 @@ a {
   text-align: center;
   position: relative;
   border-bottom: 1px solid var(--border-color);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url('/images/bright_hero.png');
+  background-image: url('/images/bright_hero.png');
   background-size: cover;
   background-position: center;
-  color: var(--text-primary);
+}
+.hero-card {
+  max-width: 650px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-md);
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(36, 47, 65, 0.08);
 }
 .hero-title {
-  font-size: 3.25rem;
+  font-size: 2.75rem;
   margin-bottom: 1rem;
   background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: none;
+  line-height: 1.25;
 }
 .hero-subtitle {
   color: var(--text-secondary);
-  font-size: 1.3rem;
-  max-width: 600px;
+  font-size: 1.15rem;
+  max-width: 550px;
   margin: 0 auto;
-  text-shadow: none;
   font-weight: 500;
+  line-height: 1.5;
+}
+@media (max-width: 576px) {
+  .hero-card {
+    padding: 1.75rem 1.25rem;
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
 }
 
 /* Card Grid */
