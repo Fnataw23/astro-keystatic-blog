@@ -199,24 +199,30 @@ a {
 
 /* Header Banner */
 .hero {
-  padding: 6rem 0 4rem;
+  padding: 7rem 0 5rem;
   text-align: center;
   position: relative;
   border-bottom: 1px solid var(--border-color);
-  background-color: hsla(210, 20%, 96%, 0.4);
+  background-image: linear-gradient(rgba(20, 26, 36, 0.8), rgba(20, 26, 36, 0.8)), url('/images/construction_hero.png');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
 }
 .hero-title {
-  font-size: 3rem;
+  font-size: 3.25rem;
   margin-bottom: 1rem;
   background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 .hero-subtitle {
-  color: var(--text-secondary);
-  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1.3rem;
   max-width: 600px;
   margin: 0 auto;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  font-weight: 500;
 }
 
 /* Card Grid */
@@ -478,7 +484,9 @@ a {
 
 /* Footer Section */
 .footer {
-  background-color: hsl(224, 30%, 10%);
+  background-image: linear-gradient(rgba(18, 24, 33, 0.94), rgba(18, 24, 33, 0.94)), url('/images/dark_concrete_footer.png');
+  background-size: cover;
+  background-position: center;
   color: hsl(220, 15%, 75%);
   border-top: 4px solid var(--accent);
   padding: 4rem 0 2rem;
