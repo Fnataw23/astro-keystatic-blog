@@ -54,12 +54,11 @@ const formatDate = (date: Date) => {
   </nav>
 
   <!-- Hero Section -->
-  <header class="hero blueprint-bg">
-    <div class="container">
-      <div class="hero-card">
-        <h1 class="hero-title">{homepage.title}</h1>
-        <p class="hero-subtitle">{homepage.description}</p>
-      </div>
+  <header class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container" style="position: relative; z-index: 2;">
+      <h1 class="hero-title">{homepage.title}</h1>
+      <p class="hero-subtitle">{homepage.description}</p>
     </div>
   </header>
 
