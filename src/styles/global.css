@@ -614,31 +614,39 @@ a {
   list-style: none;
   padding: 0;
   margin: 0;
-  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 .toc-item {
-  margin-bottom: 0.6rem;
+  margin: 0;
 }
 .toc-link {
   color: var(--text-secondary);
-  transition: var(--transition);
-  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
   line-height: 1.4;
+  display: block;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
   border-left: 2px solid transparent;
-  padding-left: 0.6rem;
 }
 .toc-link:hover {
+  background-color: hsla(256, 80%, 55%, 0.05);
   color: var(--accent);
   border-left-color: var(--border-color);
 }
 .toc-link.active {
+  background-color: hsla(256, 80%, 55%, 0.08);
   color: var(--accent);
   font-weight: 600;
   border-left-color: var(--accent);
 }
 .toc-h3 {
-  padding-left: 1.2rem;
+  padding-left: 1.25rem;
   font-size: 0.8rem;
+  opacity: 0.85;
 }
 
 /* Related Posts widget */

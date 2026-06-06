@@ -142,7 +142,7 @@ export default config({
         }),
         sidebarBannerLink: fields.text({
           label: 'Ссылка для кнопки баннера',
-          defaultValue: '#'
+          defaultValue: '/#contact'
         }),
         sidebarBannerButtonText: fields.text({
           label: 'Текст кнопки баннера',
