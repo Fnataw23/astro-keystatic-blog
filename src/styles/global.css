@@ -633,7 +633,7 @@ a {
   width: 100%;
   text-align: center;
   background: var(--accent-gradient);
-  color: #fff;
+  color: #fff !important; /* Force white text color regardless of container context */
   padding: 0.75rem 1.25rem;
   border-radius: var(--radius-sm);
   font-weight: 700;
@@ -646,7 +646,7 @@ a {
 .btn-cta:hover {
   transform: translateY(-2px);
   filter: brightness(1.05);
-  box-shadow: 0 6px 20px hsla(256, 80%, 55%, 0.25);
+  box-shadow: 0 6px 20px hsla(36, 100%, 45%, 0.25);
 }
 
 /* Table of Contents widget */
