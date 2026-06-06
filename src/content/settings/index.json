@@ -1,4 +1,10 @@
 {
   "siteName": "МастерБлог",
-  "siteDescription": "Информационный портал со статьями о строительстве, ремонте, сантехнике и дизайне."
+  "siteDescription": "Информационный портал со статьями о строительстве, ремонте, сантехнике и дизайне.",
+  "telegramBotToken": "",
+  "telegramChatId": "",
+  "sidebarBannerTitle": "Рассчитать смету ремонта",
+  "sidebarBannerText": "Получите точный расчет стоимости работ и материалов за 5 минут!",
+  "sidebarBannerLink": "#",
+  "sidebarBannerButtonText": "Рассчитать смету"
 }

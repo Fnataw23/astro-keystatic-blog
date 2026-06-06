@@ -124,6 +124,30 @@ export default config({
           multiline: true,
           defaultValue: 'Информационный портал со статьями о строительстве, ремонте, сантехнике и дизайне.'
         }),
+        telegramBotToken: fields.text({
+          label: 'Токен Telegram-бота (для заявок)',
+          description: 'Получите у @BotFather. Пример: 123456789:ABCdefGhI...'
+        }),
+        telegramChatId: fields.text({
+          label: 'ID чата Telegram (куда слать заявки)',
+          description: 'ID группы или вашего аккаунта. Можно узнать у @userinfobot'
+        }),
+        sidebarBannerTitle: fields.text({
+          label: 'Заголовок баннера в сайдбаре',
+          defaultValue: 'Рассчитать смету ремонта'
+        }),
+        sidebarBannerText: fields.text({
+          label: 'Описание баннера в сайдбаре',
+          defaultValue: 'Получите точный расчет стоимости работ и материалов за 5 минут!'
+        }),
+        sidebarBannerLink: fields.text({
+          label: 'Ссылка для кнопки баннера',
+          defaultValue: '#'
+        }),
+        sidebarBannerButtonText: fields.text({
+          label: 'Текст кнопки баннера',
+          defaultValue: 'Рассчитать смету'
+        }),
       }
     }),
   },

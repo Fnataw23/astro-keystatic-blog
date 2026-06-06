@@ -54,7 +54,7 @@ const formatDate = (date: Date) => {
   </nav>
 
   <!-- Hero Section -->
-  <header class="hero">
+  <header class="hero blueprint-bg">
     <div class="container">
       <h1 class="hero-title">{homepage.title}</h1>
       <p class="hero-subtitle">{homepage.description}</p>
@@ -109,7 +109,7 @@ const formatDate = (date: Date) => {
       ) : (
         sortedPosts.map((post) => (
           <article class="card" data-post-category={post.data.category}>
-            <a href={`/posts/${post.slug}`} class="card-image-link">
+            <a href={`/posts/${post.data.category}/${post.slug}`} class="card-image-link">
               {post.data.coverImage ? (
                 <>
                   <div class="card-image-blur" style={`background-image: url(${post.data.coverImage})`} />
@@ -135,12 +135,12 @@ const formatDate = (date: Date) => {
                 </time>
               </div>
               <h2 class="card-title">
-                <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+                <a href={`/posts/${post.data.category}/${post.slug}`}>{post.data.title}</a>
               </h2>
               <p class="card-desc">{post.data.description}</p>
               
               <div class="card-footer">
-                <a href={`/posts/${post.slug}`} class="read-more">
+                <a href={`/posts/${post.data.category}/${post.slug}`} class="read-more">
                   Читать статью 
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -155,57 +155,212 @@ const formatDate = (date: Date) => {
     </div>
   </main>
 
+  <!-- Feedback Form Section -->
+  <section class="contact-section" id="contact" style="margin-bottom: 5rem;">
+    <h2 class="contact-section-title">Обратная связь</h2>
+    <p class="contact-section-desc">Есть вопросы по ремонту или хотите рассчитать стоимость отделки? Напишите нам!</p>
+    
+    <form class="contact-form" id="feedback-form">
+      <div class="contact-form-row">
+        <div class="form-group">
+          <label class="form-label" for="form-name">Ваше имя</label>
+          <input class="form-input" type="text" id="form-name" placeholder="Иван" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="form-contact">Телефон или Email</label>
+          <input class="form-input" type="text" id="form-contact" placeholder="+7 (999) 123-45-67" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="form-message">Сообщение</label>
+        <textarea class="form-textarea" id="form-message" placeholder="Здравствуйте, мне нужен расчет стоимости отделки квартиры..."></textarea>
+      </div>
+      <button class="btn-submit" type="submit" id="submit-btn">
+        <span>Отправить заявку</span>
+        <svg id="loading-spinner" style="display: none; animation: spin 1s linear infinite;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="2" x2="12" y2="6"></line>
+          <line x1="12" y1="18" x2="12" y2="22"></line>
+          <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+          <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+          <line x1="2" y1="12" x2="6" y2="12"></line>
+          <line x1="18" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+          <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+        </svg>
+      </button>
+    </form>
+  </section>
+
+  <!-- Modal Success Overlay -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal-card">
+      <div class="modal-icon modal-icon-success">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3 class="modal-title">Спасибо за заявку!</h3>
+      <p class="modal-text">Мы получили ваше сообщение и свяжемся с вами в ближайшее время для уточнения деталей.</p>
+      <button class="btn-modal-close" id="close-modal-btn">Отлично</button>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p>© 2026 {settings.siteName}. Все права защищены.</p>
-      <div class="footer-links">
-        <a href="/" style="color: var(--text-muted); hover: color: var(--accent);">Главная</a>
-        <a href="/keystatic" style="color: var(--text-muted); hover: color: var(--accent);">Админ-панель</a>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3 style="margin-top: 0;">{settings.siteName}</h3>
+          <p>{settings.siteDescription}</p>
+        </div>
+        <div class="footer-col">
+          <h3>Разделы</h3>
+          <ul class="footer-list">
+            <li><a href="/">Все статьи</a></li>
+            {dbCategories.map(cat => (
+              <li><a href={`/#${cat.id}`}>{cat.data.name}</a></li>
+            ))}
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Контакты</h3>
+          <p style="margin-bottom: 0.75rem;">Задайте вопрос или оставьте заявку на консультацию!</p>
+          <a href="#contact" class="btn-cta" style="display: inline-block; width: auto; font-size: 0.85rem; padding: 0.5rem 1rem;">Написать нам</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 {settings.siteName}. Все права защищены.</p>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="/">Главная</a>
+          <a href="/keystatic">Админ-панель</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <!-- Instant Client-side Filter Script -->
+  <!-- Contact Form Handling Script -->
+  <script>
+    const form = document.getElementById('feedback-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const spinner = document.getElementById('loading-spinner');
+    const modal = document.getElementById('success-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Disable button & show spinner
+        if (submitBtn) (submitBtn as HTMLButtonElement).disabled = true;
+        if (spinner) (spinner as HTMLElement).style.display = 'inline-block';
+
+        const name = (document.getElementById('form-name') as HTMLInputElement).value;
+        const contact = (document.getElementById('form-contact') as HTMLInputElement).value;
+        const message = (document.getElementById('form-message') as HTMLTextAreaElement).value;
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, contact, message })
+          });
+
+          const result = await response.json();
+
+          if (response.ok && result.success) {
+            // Clear form
+            (form as HTMLFormElement).reset();
+            // Show modal
+            if (modal) modal.classList.add('active');
+          } else {
+            alert(result.error || 'Произошла ошибка при отправке.');
+          }
+        } catch (error) {
+          console.error('Submission error:', error);
+          alert('Не удалось отправить заявку. Проверьте подключение к сети.');
+        } finally {
+          // Re-enable button & hide spinner
+          if (submitBtn) (submitBtn as HTMLButtonElement).disabled = false;
+          if (spinner) (spinner as HTMLElement).style.display = 'none';
+        }
+      });
+    }
+
+    if (closeModalBtn && modal) {
+      closeModalBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+    }
+  </script>
+
+  <!-- Instant Client-side Filter & Hash Navigation Script -->
   <script>
     const filterButtons = document.querySelectorAll('.filter-btn');
     const posts = document.querySelectorAll('#posts-grid article');
 
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Toggle active button style
-        filterButtons.forEach(b => {
+    function filterCategory(category: string) {
+      filterButtons.forEach(b => {
+        if (b.getAttribute('data-category') === category) {
+          b.classList.add('active');
+          (b as HTMLButtonElement).style.borderColor = 'var(--accent)';
+          (b as HTMLButtonElement).style.color = 'var(--text-primary)';
+          (b as HTMLButtonElement).style.background = 'hsla(263, 80%, 65%, 0.1)';
+        } else {
           b.classList.remove('active');
           (b as HTMLButtonElement).style.borderColor = 'var(--border-color)';
           (b as HTMLButtonElement).style.color = 'var(--text-secondary)';
           (b as HTMLButtonElement).style.background = 'var(--bg-card)';
-        });
-        
-        btn.classList.add('active');
-        (btn as HTMLButtonElement).style.borderColor = 'var(--accent)';
-        (btn as HTMLButtonElement).style.color = 'var(--text-primary)';
-        (btn as HTMLButtonElement).style.background = 'hsla(263, 80%, 65%, 0.1)';
+        }
+      });
 
-        const targetCategory = btn.getAttribute('data-category');
+      posts.forEach(post => {
+        const postCategory = post.getAttribute('data-post-category');
+        if (category === 'all' || postCategory === category) {
+          (post as HTMLElement).style.display = 'flex';
+        } else {
+          (post as HTMLElement).style.display = 'none';
+        }
+      });
+    }
 
-        posts.forEach(post => {
-          const postCategory = post.getAttribute('data-post-category');
-          if (targetCategory === 'all' || postCategory === targetCategory) {
-            (post as HTMLElement).style.display = 'flex';
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.getAttribute('data-category');
+        if (category) {
+          filterCategory(category);
+          // Update URL hash without jumping
+          if (category === 'all') {
+            history.pushState("", document.title, window.location.pathname + window.location.search);
           } else {
-            (post as HTMLElement).style.display = 'none';
+            window.location.hash = category;
           }
-        });
+        }
       });
     });
 
-    // Style active button initially
-    const initialActive = document.querySelector('.filter-btn.active');
-    if (initialActive) {
-      (initialActive as HTMLButtonElement).style.borderColor = 'var(--accent)';
-      (initialActive as HTMLButtonElement).style.color = 'var(--text-primary)';
-      (initialActive as HTMLButtonElement).style.background = 'hsla(263, 80%, 65%, 0.1)';
+    // Check hash on load and hashchange
+    function checkHash() {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        const matchingBtn = document.querySelector(`.filter-btn[data-category="${hash}"]`);
+        if (matchingBtn) {
+          filterCategory(hash);
+          return;
+        }
+      }
+      
+      // Default fallback
+      const activeBtn = document.querySelector('.filter-btn.active');
+      if (activeBtn) {
+        const category = activeBtn.getAttribute('data-category') || 'all';
+        filterCategory(category);
+      }
     }
+
+    window.addEventListener('load', checkHash);
+    window.addEventListener('hashchange', checkHash);
   </script>
 </body>
 </html>
