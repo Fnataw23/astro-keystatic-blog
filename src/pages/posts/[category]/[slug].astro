@@ -133,7 +133,6 @@ const embedVideoUrl = getEmbedUrl(post.data.videoUrl);
         <!-- Article Cover -->
         {post.data.coverImage && (
           <div class="article-cover-container">
-            <div class="article-cover-blur" style={`background-image: url(${post.data.coverImage})`} />
             <img src={post.data.coverImage} alt={post.data.title} class="article-cover-main" />
           </div>
         )}
