@@ -117,13 +117,13 @@ a {
   box-shadow: none;
 }
 .navbar-transparent .nav-link {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--text-secondary);
 }
 .navbar-transparent .nav-link:hover {
-  color: #ffffff;
+  color: var(--accent);
 }
 .navbar-transparent .nav-link::after {
-  background: #ffffff;
+  background: var(--accent);
 }
 .blueprint-bg {
   background-image: 
@@ -224,10 +224,10 @@ a {
   text-align: center;
   position: relative;
   border-bottom: 1px solid var(--border-color);
-  background-image: linear-gradient(rgba(20, 26, 36, 0.8), rgba(20, 26, 36, 0.8)), url('/images/construction_hero.png');
+  background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url('/images/bright_hero.png');
   background-size: cover;
   background-position: center;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 .hero-title {
   font-size: 3.25rem;
@@ -235,14 +235,14 @@ a {
   background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
 }
 .hero-subtitle {
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--text-secondary);
   font-size: 1.3rem;
   max-width: 600px;
   margin: 0 auto;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  text-shadow: none;
   font-weight: 500;
 }
 
