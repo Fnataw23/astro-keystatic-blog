@@ -14,7 +14,6 @@
   
   --accent: hsl(256, 80%, 50%);
   --accent-secondary: hsl(195, 90%, 40%);
-  --accent-orange: hsl(24, 95%, 53%);
   --accent-gradient: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
   
   --font-title: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -99,7 +98,7 @@ a {
   -webkit-backdrop-filter: blur(16px);
   background: hsla(210, 20%, 98%, 0.85);
   border-bottom: 1px solid var(--border-color);
-  border-top: 4px solid var(--accent-orange);
+  border-top: 4px solid var(--accent);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -330,13 +329,13 @@ a {
 
 /* Article view styles */
 .article-header {
-  padding: 4rem 0 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 1rem 0 1.5rem;
+  width: 100%;
 }
 .article-title {
-  font-size: 2.8rem;
-  margin: 1.5rem 0 1rem;
+  font-size: 2.5rem;
+  margin: 0.5rem 0 1rem;
+  line-height: 1.25;
 }
 .article-meta {
   display: flex;
@@ -346,14 +345,14 @@ a {
   font-size: 0.95rem;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 .article-cover-container {
   position: relative;
-  max-width: 900px;
+  width: 100%;
   aspect-ratio: 16 / 9;
   max-height: 500px;
-  margin: 0 auto 3rem;
+  margin: 0 0 2rem;
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--border-color);
@@ -381,8 +380,7 @@ a {
   z-index: 2;
 }
 .article-body {
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
   font-size: 1.1rem;
   color: var(--text-secondary);
   line-height: 1.8;
@@ -442,7 +440,7 @@ a {
 .footer {
   background-color: hsl(224, 30%, 10%);
   color: hsl(220, 15%, 75%);
-  border-top: 4px solid var(--accent-orange);
+  border-top: 4px solid var(--accent);
   padding: 4rem 0 2rem;
   margin-top: 6rem;
   font-size: 0.95rem;
@@ -452,7 +450,7 @@ a {
   transition: var(--transition);
 }
 .footer a:hover {
-  color: var(--accent-orange);
+  color: var(--accent);
 }
 .footer-grid {
   display: grid;
@@ -478,7 +476,7 @@ a {
   left: 0;
   width: 30px;
   height: 2px;
-  background-color: var(--accent-orange);
+  background-color: var(--accent);
 }
 .footer-col p {
   line-height: 1.6;
@@ -508,11 +506,12 @@ a {
   grid-template-columns: 1fr;
   gap: 3rem;
   margin-top: 2rem;
+  align-items: start;
 }
 
 @media (min-width: 1024px) {
   .article-layout {
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 320px;
   }
 }
 
@@ -559,9 +558,9 @@ a {
 
 /* CTA Banner widget */
 .widget-cta {
-  background: linear-gradient(135deg, hsl(224, 30%, 15%) 0%, hsl(224, 30%, 8%) 100%);
-  border: 1px solid var(--accent-orange);
-  color: #fff;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   position: relative;
   overflow: hidden;
 }
@@ -572,20 +571,20 @@ a {
   right: -50%;
   width: 150px;
   height: 150px;
-  background: radial-gradient(circle, hsla(24, 95%, 53%, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, hsla(256, 80%, 55%, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .widget-cta-title {
   font-family: var(--font-title);
   font-size: 1.25rem;
-  color: #fff;
-  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
   font-weight: 800;
   letter-spacing: -0.01em;
 }
 .widget-cta-text {
   font-size: 0.85rem;
-  color: hsl(220, 10%, 75%);
+  color: var(--text-secondary);
   margin-bottom: 1.25rem;
   line-height: 1.5;
 }
@@ -593,21 +592,21 @@ a {
   display: inline-block;
   width: 100%;
   text-align: center;
-  background: var(--accent-orange);
+  background: var(--accent-gradient);
   color: #fff;
-  padding: 0.7rem 1rem;
+  padding: 0.75rem 1.25rem;
   border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 0.9rem;
   transition: var(--transition);
-  box-shadow: 0 4px 12px hsla(24, 95%, 53%, 0.3);
+  box-shadow: var(--glow-shadow);
   border: none;
   cursor: pointer;
 }
 .btn-cta:hover {
-  background: hsl(24, 95%, 45%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px hsla(24, 95%, 53%, 0.4);
+  filter: brightness(1.05);
+  box-shadow: 0 6px 20px hsla(256, 80%, 55%, 0.25);
 }
 
 /* Table of Contents widget */
@@ -841,12 +840,12 @@ a {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: hsla(16, 100%, 50%, 0.1);
+  background: hsla(256, 80%, 55%, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto 1.25rem;
-  color: var(--accent-orange);
+  color: var(--accent);
 }
 .modal-icon-success {
   background: rgba(16, 185, 129, 0.1);
